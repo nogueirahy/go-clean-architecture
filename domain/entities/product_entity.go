@@ -15,5 +15,5 @@ type ProductEntity struct {
 }
 
 func (p *ProductEntity) SomeBusinessLogic() bool {
-	return p.AvailableQuantity > 0
+	return p.Id == "1"
 }

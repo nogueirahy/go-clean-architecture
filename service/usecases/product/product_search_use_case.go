@@ -1,11 +1,18 @@
 package service
 
-import usecases "github.com/nogueirahy/go-clean-architecture/domain/usecases/product"
+import (
+	"github.com/nogueirahy/go-clean-architecture/domain/entities"
+	vtexapi "github.com/nogueirahy/go-clean-architecture/infra/vtex_api/product"
+	"github.com/nogueirahy/go-clean-architecture/infra/vtex_api/product/model"
+)
 
 type ProductSearchUseCase struct {
-	searchProduct usecases.ISearchProductUseCase
+	VtexApi vtexapi.IVtexApiProduct
 }
 
-func (p *ProductSearchUseCase) execute(textSearch string) {
-	p.searchProduct.Execute(textSearch)
+func (p ProductSearchUseCase) Execute(textSearch string) entities.ProductEntity {
+	payload := model.VtexApiSearchProductRequest{TextSearch: textSearch}
+	responseData := p.VtexApi.SearchProduct(payload).Translator.ToEntity()
+
+	return responseData
 }
